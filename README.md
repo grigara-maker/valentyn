@@ -1,36 +1,149 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Valentýnská Webová Aplikace ❤️
 
-## Getting Started
+Interaktivní valentýnské přání s moderním designem, animacemi a personalizovaným obsahem.
 
-First, run the development server:
+## 🎯 Funkce
+
+- **Ambientní pozadí** s plovoucími transparentními srdíčky
+- **Animovaná obálka** s "trance" efektem, která vybízí ke kliknutí
+- **Interaktivní otázka** "bby, budeš mou valentýnkou?"
+- **"Utíkající" tlačítko "Ne"** s fyzikální simulací (vektorová matematika)
+- **Konfetová oslava** po kliknutí na "Ano"
+- **Synchronizace textu písně** s audio přehrávačem (karaoke styl)
+- **Export do kalendáře** (.ics soubor pro Apple Kalendář)
+
+## 🚀 Technologie
+
+- **Next.js 15** s App Router
+- **TypeScript** pro type safety
+- **Tailwind CSS** pro styling
+- **Framer Motion** pro pokročilé animace
+- **canvas-confetti** pro efekt konfet
+- **Lucide React** pro ikony
+
+## 📦 Instalace
 
 ```bash
+# Instalace závislostí
+npm install
+
+# Spuštění vývojového serveru
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Aplikace bude dostupná na `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎵 Audio Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Vytvořte složku `public/music/` (už vytvořená)
+2. Umístěte MP3 soubor písničky jako `public/music/dirty-little-secret.mp3`
+3. Doporučený bitrate: 128-192 kbps
 
-## Learn More
+## 📝 Úprava textu písně
 
-To learn more about Next.js, take a look at the following resources:
+Otevřete soubor `app/components/LyricsSyncDisplay.tsx` a doplňte pole `lyrics` s časovými značkami:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```typescript
+const lyrics: LyricLine[] = [
+  { time: 0, text: '[Instrumental Intro]' },
+  { time: 14.5, text: 'Váš text zde...' },
+  // ... další řádky
+];
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Poznámka:** Z důvodu autorských práv je v kódu pouze ukázková struktura. Text písně si musíte doplnit sami.
 
-## Deploy on Vercel
+## 🎨 Přizpůsobení
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Barvy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Aplikace používá paletu:
+- Bílá (`#FFFFFF`) - pozadí
+- Černá (`#09090b`) - text
+- Sytě červená (`#DC2626`) - akcenty
+
+Barvy můžete upravit v `app/globals.css`:
+
+```css
+:root {
+  --love-red: #DC2626; /* Vaše barva */
+}
+```
+
+### Text otázky
+
+V souboru `app/components/TranceEnvelope.tsx` najdete text:
+
+```tsx
+<h1 className="text-2xl font-bold text-zinc-900">
+  bby, budeš mou valentýnkou? 💕
+</h1>
+```
+
+### Kalendářová událost
+
+V souboru `app/components/SuccessView.tsx` upravte detaily události:
+
+```typescript
+const event = {
+  title: 'Valentýnské Rande ❤️',
+  description: 'Hurá, bude mi ctí!',
+  location: 'TBD',
+  startDate: new Date('2026-02-14T18:00:00'),
+  endDate: new Date('2026-02-14T23:00:00'),
+};
+```
+
+## 🌐 Nasazení na Vercel
+
+1. Pushněte projekt na GitHub
+2. Přihlaste se na [vercel.com](https://vercel.com)
+3. Klikněte na "New Project"
+4. Importujte GitHub repozitář
+5. Vercel automaticky rozpozná Next.js a nasadí aplikaci
+
+### Build Command
+```bash
+npm run build
+```
+
+### Environment Variables
+Žádné speciální proměnné prostředí nejsou potřeba.
+
+## 📱 Mobilní Podpora
+
+Aplikace je plně responzivní a optimalizovaná pro:
+- iOS Safari
+- Android Chrome
+- Desktop prohlížeče
+
+"Utíkající" tlačítko funguje jak s myší, tak s dotykovým ovládáním.
+
+## 🔧 Řešení problémů
+
+### Audio se nepřehrává automaticky
+
+Moderní prohlížeče blokují autoplay. Audio se spustí až po kliknutí na tlačítko "Ano" (což je interakce uživatele).
+
+### Konfety se nezobrazují
+
+Zkontrolujte, že je nainstalovaná knihovna `canvas-confetti`:
+```bash
+npm install canvas-confetti
+```
+
+### Tlačítko "Ne" neutíká
+
+Problém může být s JavaScript permissions. Zkontrolujte konzoli prohlížeče (F12) pro chybové hlášky.
+
+## 📄 Licence
+
+Tento projekt je vytvořen pro osobní použití jako valentýnské přání.
+
+## ❤️ Autor
+
+Vytvořeno s láskou pomocí AI asistenta Cursor.
+
+---
+
+**Přeji krásný Valentýn! 💕**
