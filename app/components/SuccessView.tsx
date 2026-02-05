@@ -143,6 +143,9 @@ export default function SuccessView({ isOpen, onClose }: SuccessViewProps) {
                   <LyricsSyncDisplay currentTime={currentTime} />
                 </div>
 
+                {/* Love Message */}
+                <h3 className="text-center text-2xl font-bold text-zinc-900">miluju tě, bby</h3>
+
                 {/* Calendar Button */}
                 <motion.button
                   onClick={handleAddToCalendar}
