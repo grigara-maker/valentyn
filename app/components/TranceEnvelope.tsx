@@ -37,8 +37,8 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
                 }
           }
           style={{
-            filter: 'drop-shadow(0 0 40px rgba(220, 38, 38, 0.5)) drop-shadow(0 0 80px rgba(220, 38, 38, 0.3))',
-            willChange: isOpen ? 'transform, opacity' : 'auto',
+            filter: 'drop-shadow(0 0 20px rgba(220, 38, 38, 0.6)) drop-shadow(0 0 40px rgba(220, 38, 38, 0.4)) drop-shadow(0 0 80px rgba(220, 38, 38, 0.2)) drop-shadow(0 0 120px rgba(220, 38, 38, 0.1))',
+            willChange: isOpen ? 'transform, opacity, filter' : 'auto',
           }}
         >
           {/* SVG Obálka */}
