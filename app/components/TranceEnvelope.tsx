@@ -40,6 +40,7 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
             filter: isOpen
               ? 'none'
               : 'drop-shadow(0 0 40px rgba(220, 38, 38, 0.5)) drop-shadow(0 0 80px rgba(220, 38, 38, 0.3))',
+            willChange: isOpen ? 'transform, opacity' : 'auto',
           }}
         >
           {/* SVG Obálka */}
@@ -105,7 +106,10 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
             stiffness: 200,
             damping: 20
           }}
-          style={{ pointerEvents: isOpen ? 'auto' : 'none' }}
+          style={{ 
+            pointerEvents: isOpen ? 'auto' : 'none',
+            willChange: isOpen ? 'transform, opacity' : 'auto',
+          }}
         >
           <div className="text-center space-y-6">
             <h1 className="text-2xl font-bold text-zinc-900">

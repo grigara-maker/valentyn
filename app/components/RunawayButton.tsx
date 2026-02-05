@@ -11,8 +11,8 @@ export default function RunawayButton() {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
-  // Rychlá, plynulá animace
-  const springConfig = { stiffness: 400, damping: 30 };
+  // Optimalizovaná animace pro lepší výkon
+  const springConfig = { stiffness: 300, damping: 25, bounce: 0 };
   const xSpring = useSpring(x, springConfig);
   const ySpring = useSpring(y, springConfig);
 
@@ -108,7 +108,7 @@ export default function RunawayButton() {
   return (
     <motion.button
       ref={buttonRef}
-      style={{ x: xSpring, y: ySpring }}
+      style={{ x: xSpring, y: ySpring, willChange: 'transform' }}
       className="px-8 py-3 bg-zinc-200 text-zinc-700 rounded-full font-semibold transition-colors cursor-pointer select-none"
     >
       ne
