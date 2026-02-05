@@ -39,7 +39,7 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
           style={{
             filter: isOpen
               ? 'none'
-              : 'drop-shadow(0 0 30px rgba(220, 38, 38, 0.6))',
+              : 'drop-shadow(0 0 40px rgba(220, 38, 38, 0.5)) drop-shadow(0 0 80px rgba(220, 38, 38, 0.3))',
           }}
         >
           {/* SVG Obálka */}
