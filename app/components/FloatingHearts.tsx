@@ -1,86 +1,74 @@
 'use client';
 
 import { Heart } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 
 interface HeartData {
   id: number;
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
+  x: number;
+  y: number;
   size: number;
-  delay: number;
   opacity: number;
   duration: number;
-  rotation: number;
+  delay: number;
 }
 
 export default function FloatingHearts() {
   const hearts = useMemo<HeartData[]>(() => {
-    return Array.from({ length: 30 }, (_, i) => {
-      const startX = Math.random() * 100;
-      const startY = Math.random() * 100;
-      
-      return {
-        id: i,
-        startX,
-        startY,
-        endX: startX + (Math.random() - 0.5) * 40, // Pohyb ±20%
-        endY: startY + (Math.random() - 0.5) * 40,
-        size: 20 + Math.random() * 30, // 20-50px
-        delay: Math.random() * 20, // 0-20s
-        opacity: 0.1 + Math.random() * 0.2, // 0.1-0.3
-        duration: 10 + Math.random() * 15, // 10-25s
-        rotation: Math.random() * 360,
-      };
-    });
+    return Array.from({ length: 40 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: 15 + Math.random() * 25,
+      opacity: 0.15 + Math.random() * 0.25,
+      duration: 8 + Math.random() * 12,
+      delay: Math.random() * 3, // Kratší delay pro okamžitý start
+    }));
   }, []);
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {hearts.map((heart) => (
-        <div
-          key={heart.id}
-          className="absolute"
-          style={{
-            left: `${heart.startX}%`,
-            top: `${heart.startY}%`,
-            animation: `floatRandom-${heart.id} ${heart.duration}s ease-in-out infinite`,
-            animationDelay: `${heart.delay}s`,
-          }}
-        >
-          <Heart
-            size={heart.size}
-            className="text-red-600 fill-red-600"
-            style={{
-              opacity: heart.opacity,
-              filter: 'blur(1px)',
-              transform: `rotate(${heart.rotation}deg)`,
+      {hearts.map((heart) => {
+        // Náhodný směr pohybu
+        const moveX = (Math.random() - 0.5) * 100;
+        const moveY = (Math.random() - 0.5) * 100;
+        const rotate = Math.random() * 360;
+
+        return (
+          <motion.div
+            key={heart.id}
+            className="absolute"
+            initial={{
+              x: `${heart.x}vw`,
+              y: `${heart.y}vh`,
+              rotate: 0,
+              scale: 1,
             }}
-          />
-          <style jsx>{`
-            @keyframes floatRandom-${heart.id} {
-              0%, 100% {
-                transform: translate(0, 0) rotate(${heart.rotation}deg) scale(1);
-                opacity: ${heart.opacity};
-              }
-              25% {
-                transform: translate(${(heart.endX - heart.startX) * 0.5}vw, ${(heart.endY - heart.startY) * 0.5}vh) rotate(${heart.rotation + 45}deg) scale(1.1);
-                opacity: ${heart.opacity * 1.5};
-              }
-              50% {
-                transform: translate(${heart.endX - heart.startX}vw, ${heart.endY - heart.startY}vh) rotate(${heart.rotation + 90}deg) scale(1.2);
-                opacity: ${heart.opacity};
-              }
-              75% {
-                transform: translate(${(heart.endX - heart.startX) * 0.5}vw, ${-(heart.endY - heart.startY) * 0.3}vh) rotate(${heart.rotation + 135}deg) scale(1.1);
-                opacity: ${heart.opacity * 1.5};
-              }
-            }
-          `}</style>
-        </div>
-      ))}
+            animate={{
+              x: [`${heart.x}vw`, `${heart.x + moveX}vw`, `${heart.x}vw`],
+              y: [`${heart.y}vh`, `${heart.y + moveY}vh`, `${heart.y}vh`],
+              rotate: [0, rotate, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: heart.duration,
+              delay: heart.delay,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          >
+            <Heart
+              size={heart.size}
+              className="text-red-600 fill-red-600"
+              style={{
+                opacity: heart.opacity,
+                filter: 'blur(0.5px)',
+              }}
+            />
+          </motion.div>
+        );
+      })}
     </div>
   );
 }
