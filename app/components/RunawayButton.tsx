@@ -16,9 +16,8 @@ export default function RunawayButton() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('ne');
-  const [isOnCooldown, setIsOnCooldown] = useState(false);
-  const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const cooldownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const escapeCount = useRef(0); // Počítadlo uhnutí
+  const currentTeasingMessage = useRef(''); // Aktuální vtipná hláška pro toto období
   const lastMousePos = useRef({ x: 0, y: 0 });
   
   const x = useMotionValue(0);
@@ -31,31 +30,24 @@ export default function RunawayButton() {
 
   const escapeDistance = 15; // ~0.25cm před kurzorem
 
-  const showRandomMessage = () => {
-    // Pokud je cooldown, nezobrazuj hlášku
-    if (isOnCooldown) return;
+  const handleEscape = () => {
+    escapeCount.current += 1;
+    const count = escapeCount.current;
     
-    const randomMsg = teasingMessages[Math.floor(Math.random() * teasingMessages.length)];
-    setCurrentMessage(randomMsg);
+    // Zjistit, ve kterém 5-escape období jsme
+    const period = Math.floor((count - 1) / 5);
+    const isNePeriod = period % 2 === 0; // sudá období (0, 2, 4...) = "ne"
     
-    // Vyčistit předchozí timeouty
-    if (messageTimeoutRef.current) {
-      clearTimeout(messageTimeoutRef.current);
-    }
-    if (cooldownTimeoutRef.current) {
-      clearTimeout(cooldownTimeoutRef.current);
-    }
-    
-    // Vrátit zpět "ne" po 3 sekundách
-    messageTimeoutRef.current = setTimeout(() => {
+    if (isNePeriod) {
       setCurrentMessage('ne');
-    }, 3000);
-    
-    // Začít 5s cooldown po zobrazení hlášky
-    setIsOnCooldown(true);
-    cooldownTimeoutRef.current = setTimeout(() => {
-      setIsOnCooldown(false);
-    }, 8000); // 3s zobrazení + 5s pauza
+    } else {
+      // Pokud jsme v novém období, vyber novou náhodnou hlášku
+      if ((count - 1) % 5 === 0) {
+        const randomMsg = teasingMessages[Math.floor(Math.random() * teasingMessages.length)];
+        currentTeasingMessage.current = randomMsg;
+      }
+      setCurrentMessage(currentTeasingMessage.current);
+    }
   };
 
   useEffect(() => {
@@ -79,8 +71,8 @@ export default function RunawayButton() {
       if (isOverButton) {
         setIsHovering(true);
         
-        // Zobrazit náhodnou hlášku
-        showRandomMessage();
+        // Zpracovat uhnutí
+        handleEscape();
         
         // Vypočítat směr pohybu myši
         const mouseDeltaX = mouseX - lastMousePos.current.x;
@@ -129,8 +121,8 @@ export default function RunawayButton() {
         touchY <= rect.bottom;
       
       if (isOverButton) {
-        // Zobrazit náhodnou hlášku
-        showRandomMessage();
+        // Zpracovat uhnutí
+        handleEscape();
         
         // Posun náhodným směrem při dotyku
         const randomAngle = Math.random() * Math.PI * 2;
@@ -148,14 +140,8 @@ export default function RunawayButton() {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchstart', handleTouchStart);
-      if (messageTimeoutRef.current) {
-        clearTimeout(messageTimeoutRef.current);
-      }
-      if (cooldownTimeoutRef.current) {
-        clearTimeout(cooldownTimeoutRef.current);
-      }
     };
-  }, [x, y, isOnCooldown]);
+  }, [x, y]);
 
   return (
     <motion.button
