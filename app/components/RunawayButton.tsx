@@ -3,9 +3,20 @@
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
+const teasingMessages = [
+  'mě nechytíš',
+  'snaž se dál',
+  'haha',
+  'noobe',
+  'skill issue',
+  'kašli na to bro',
+];
+
 export default function RunawayButton() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState('ne');
+  const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastMousePos = useRef({ x: 0, y: 0 });
   
   const x = useMotionValue(0);
@@ -17,6 +28,21 @@ export default function RunawayButton() {
   const ySpring = useSpring(y, springConfig);
 
   const escapeDistance = 15; // ~0.25cm před kurzorem
+
+  const showRandomMessage = () => {
+    const randomMsg = teasingMessages[Math.floor(Math.random() * teasingMessages.length)];
+    setCurrentMessage(randomMsg);
+    
+    // Vyčistit předchozí timeout
+    if (messageTimeoutRef.current) {
+      clearTimeout(messageTimeoutRef.current);
+    }
+    
+    // Vrátit zpět "ne" po 1.5 sekundě
+    messageTimeoutRef.current = setTimeout(() => {
+      setCurrentMessage('ne');
+    }, 1500);
+  };
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -38,6 +64,9 @@ export default function RunawayButton() {
 
       if (isOverButton) {
         setIsHovering(true);
+        
+        // Zobrazit náhodnou hlášku
+        showRandomMessage();
         
         // Vypočítat směr pohybu myši
         const mouseDeltaX = mouseX - lastMousePos.current.x;
@@ -86,6 +115,9 @@ export default function RunawayButton() {
         touchY <= rect.bottom;
       
       if (isOverButton) {
+        // Zobrazit náhodnou hlášku
+        showRandomMessage();
+        
         // Posun náhodným směrem při dotyku
         const randomAngle = Math.random() * Math.PI * 2;
         const moveX = Math.cos(randomAngle) * escapeDistance * 2;
@@ -102,6 +134,9 @@ export default function RunawayButton() {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchstart', handleTouchStart);
+      if (messageTimeoutRef.current) {
+        clearTimeout(messageTimeoutRef.current);
+      }
     };
   }, [x, y]);
 
@@ -109,9 +144,9 @@ export default function RunawayButton() {
     <motion.button
       ref={buttonRef}
       style={{ x: xSpring, y: ySpring, willChange: 'transform' }}
-      className="px-8 py-3 bg-zinc-200 text-zinc-700 rounded-full font-semibold transition-colors cursor-pointer select-none"
+      className="px-8 py-3 bg-zinc-200 text-zinc-700 rounded-full font-semibold transition-colors cursor-pointer select-none min-w-[120px]"
     >
-      ne
+      {currentMessage}
     </motion.button>
   );
 }

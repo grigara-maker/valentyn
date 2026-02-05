@@ -151,7 +151,7 @@ export default function SuccessView({ isOpen, onClose }: SuccessViewProps) {
                   whileTap={{ scale: 0.98 }}
                 >
                   <Calendar size={24} />
-                  <span>přidat do kalendáře (14. února 18:00)</span>
+                  <span>přidat do kalendáře, ať nezapomeneš</span>
                 </motion.button>
               </div>
             </div>

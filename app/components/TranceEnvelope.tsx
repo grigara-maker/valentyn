@@ -13,7 +13,20 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
 
   return (
     <div className="relative flex items-center justify-center min-h-screen">
-      <div className="relative">
+      {/* Červený fade pozadí */}
+      <motion.div
+        className="fixed inset-0 pointer-events-none"
+        animate={{
+          opacity: isOpen ? 0 : 1,
+        }}
+        transition={{ duration: 1 }}
+        style={{
+          background: 'radial-gradient(circle at center, rgba(220, 38, 38, 0.15) 0%, rgba(220, 38, 38, 0.08) 20%, rgba(220, 38, 38, 0.04) 40%, rgba(220, 38, 38, 0.01) 60%, transparent 80%)',
+          zIndex: 1,
+        }}
+      />
+      
+      <div className="relative z-10">
         {/* Obálka */}
         <motion.div
           className="relative cursor-pointer"
