@@ -18,6 +18,7 @@ export default function RunawayButton() {
   const [currentMessage, setCurrentMessage] = useState('ne');
   const escapeCount = useRef(0); // Počítadlo uhnutí
   const currentTeasingMessage = useRef(''); // Aktuální vtipná hláška pro toto období
+  const hasEscaped = useRef(false); // Flag pro jednu escape akci za pokus
   const lastMousePos = useRef({ x: 0, y: 0 });
   
   const x = useMotionValue(0);
@@ -71,8 +72,11 @@ export default function RunawayButton() {
       if (isOverButton) {
         setIsHovering(true);
         
-        // Zpracovat uhnutí
-        handleEscape();
+        // Zpracovat uhnutí - pouze jednou za pokus
+        if (!hasEscaped.current) {
+          handleEscape();
+          hasEscaped.current = true;
+        }
         
         // Vypočítat směr pohybu myši
         const mouseDeltaX = mouseX - lastMousePos.current.x;
@@ -98,6 +102,8 @@ export default function RunawayButton() {
         }
       } else {
         setIsHovering(false);
+        // Reset flagu když myš opustí tlačítko
+        hasEscaped.current = false;
       }
 
       // Uložit poslední pozici myši
@@ -120,9 +126,10 @@ export default function RunawayButton() {
         touchY >= rect.top && 
         touchY <= rect.bottom;
       
-      if (isOverButton) {
+      if (isOverButton && !hasEscaped.current) {
         // Zpracovat uhnutí
         handleEscape();
+        hasEscaped.current = true;
         
         // Posun náhodným směrem při dotyku
         const randomAngle = Math.random() * Math.PI * 2;
@@ -131,6 +138,11 @@ export default function RunawayButton() {
         
         x.set(x.get() + moveX);
         y.set(y.get() + moveY);
+        
+        // Reset flagu po krátkém timeoutu
+        setTimeout(() => {
+          hasEscaped.current = false;
+        }, 500);
       }
     };
 
