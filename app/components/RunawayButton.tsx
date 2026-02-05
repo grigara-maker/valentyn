@@ -111,7 +111,7 @@ export default function RunawayButton() {
       style={{ x: xSpring, y: ySpring }}
       className="px-8 py-3 bg-zinc-200 text-zinc-700 rounded-full font-semibold transition-colors cursor-pointer select-none"
     >
-      Ne
+      ne
     </motion.button>
   );
 }

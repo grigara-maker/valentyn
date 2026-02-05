@@ -119,7 +119,7 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Ano
+                ano
               </motion.button>
 
               <RunawayButton />
