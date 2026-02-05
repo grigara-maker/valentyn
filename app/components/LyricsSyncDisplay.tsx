@@ -35,12 +35,15 @@ export default function LyricsSyncDisplay({ currentTime }: LyricsSyncDisplayProp
   const containerRef = useRef<HTMLDivElement>(null);
   const activeLineRef = useRef<HTMLDivElement>(null);
 
+  // Offset pro synchronizaci (lyrics jsou o 2s napřed, takže odečteme 2s)
+  const adjustedTime = currentTime - 2;
+
   // Najít aktuální řádek
   const currentLineIndex = lyrics.findIndex((line, index) => {
     const nextLine = lyrics[index + 1];
     return (
-      currentTime >= line.time &&
-      (!nextLine || currentTime < nextLine.time)
+      adjustedTime >= line.time &&
+      (!nextLine || adjustedTime < nextLine.time)
     );
   });
 
