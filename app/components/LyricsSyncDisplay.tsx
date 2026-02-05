@@ -17,15 +17,15 @@ const lyrics: LyricLine[] = [
   { time: 20.5, text: 'I go around a time or two' },
   { time: 23.5, text: 'Just to waste my time with you' },
   { time: 27, text: 'Tell me all that you\'ve thrown away' },
-  { time: 29.5, text: 'Find out games you don\'t wanna play' },
-  { time: 35.5, text: 'You are the only one that needs to know' },
+  { time: 29.7, text: 'Find out games you don\'t wanna play' },
+  { time: 35.2, text: 'You are the only one that needs to know' },
   { time: 38.5, text: 'I\'ll keep you my dirty little secret' },
-  { time: 44, text: '(Dirty little secret)' },
+  { time: 43.7, text: '(Dirty little secret)' },
   { time: 46, text: 'Don\'t tell anyone or you\'ll be just another regret' },
-  { time: 49.5, text: '(Just another regret, hope that you can keep it)' },
-  { time: 53, text: 'My dirty little secret' },
+  { time: 49.1, text: '(Just another regret, hope that you can keep it)' },
+  { time: 52.9, text: 'My dirty little secret' },
   { time: 54.5, text: 'Who has to know?' },
-  { time: 57.5, text: '♪ ♪ ♪' },
+  { time: 56.5, text: '♪ ♪ ♪' },
 ];
 
 interface LyricsSyncDisplayProps {
