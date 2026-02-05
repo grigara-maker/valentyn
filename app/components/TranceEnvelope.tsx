@@ -101,20 +101,17 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
 
         {/* Papír s otázkou */}
         <motion.div
-          className={`${isOpen ? 'fixed' : 'absolute'} ${isOpen ? 'top-1/2 left-1/2' : 'top-0 left-1/2'} -translate-x-1/2 ${isOpen ? '-translate-y-1/2' : ''} bg-white rounded-lg shadow-2xl p-8 w-[280px] md:w-[320px]`}
-          initial={{ y: 100, opacity: 0, scale: 0.8 }}
+          className={`${isOpen ? 'fixed' : 'absolute'} ${isOpen ? 'top-1/2 left-1/2' : 'top-[60px] left-1/2'} -translate-x-1/2 ${isOpen ? '-translate-y-1/2' : ''} bg-white rounded-lg shadow-2xl p-8 w-[280px] md:w-[320px]`}
+          initial={{ y: 150, opacity: 1, scale: 0.95, zIndex: 5 }}
           animate={
             isOpen
               ? { y: 0, opacity: 1, scale: 1, zIndex: 50 }
-              : { y: 100, opacity: 0, scale: 0.8, zIndex: 5 }
+              : { y: 150, opacity: 1, scale: 0.95, zIndex: 5 }
           }
           transition={{ 
             duration: 1.4, 
-            delay: isOpen ? 0.9 : 0, 
-            ease: 'easeOut',
-            type: 'spring',
-            stiffness: 120,
-            damping: 25
+            delay: isOpen ? 0.4 : 0, 
+            ease: [0.22, 1, 0.36, 1],
           }}
           style={{ 
             pointerEvents: isOpen ? 'auto' : 'none',
