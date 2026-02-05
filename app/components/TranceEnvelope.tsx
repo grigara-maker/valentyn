@@ -42,7 +42,7 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
           }
           transition={
             isOpen
-              ? { duration: 1, ease: 'easeIn', delay: 0.5 }
+              ? { duration: 1.5, ease: 'easeIn', delay: 2.2 }
               : {
                   duration: 3,
                   repeat: Infinity,
@@ -72,7 +72,7 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
               fill="#DC2626"
               initial={{ rotateX: 0 }}
               animate={isOpen ? { rotateX: 180 } : { rotateX: 0 }}
-              transition={{ duration: 0.8, ease: 'easeInOut' }}
+              transition={{ duration: 1.8, ease: 'easeInOut' }}
               style={{
                 transformOrigin: '150px 50px',
                 transformStyle: 'preserve-3d',
@@ -109,12 +109,12 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
               : { y: 100, opacity: 0, scale: 0.8, zIndex: 5 }
           }
           transition={{ 
-            duration: 0.6, 
-            delay: isOpen ? 0.3 : 0, 
+            duration: 1.4, 
+            delay: isOpen ? 0.9 : 0, 
             ease: 'easeOut',
             type: 'spring',
-            stiffness: 200,
-            damping: 20
+            stiffness: 120,
+            damping: 25
           }}
           style={{ 
             pointerEvents: isOpen ? 'auto' : 'none',
