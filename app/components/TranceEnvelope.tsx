@@ -101,17 +101,18 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
 
         {/* Papír s otázkou */}
         <motion.div
-          className={`${isOpen ? 'fixed' : 'absolute'} ${isOpen ? 'top-1/2 left-1/2' : 'top-[60px] left-1/2'} -translate-x-1/2 ${isOpen ? '-translate-y-1/2' : ''} bg-white rounded-lg shadow-2xl p-8 w-[280px] md:w-[320px]`}
-          initial={{ y: 150, opacity: 0, scale: 0.95, zIndex: 5 }}
+          className={`${isOpen ? 'fixed' : 'absolute'} ${isOpen ? 'top-1/2 left-1/2' : 'top-[140px] left-1/2'} -translate-x-1/2 ${isOpen ? '-translate-y-1/2' : ''} bg-white rounded-lg shadow-2xl p-8 w-[280px] md:w-[320px]`}
+          initial={{ y: 0, opacity: 0, scale: 0.85 }}
           animate={
             isOpen
-              ? { y: 0, opacity: 1, scale: 1, zIndex: 50 }
-              : { y: 150, opacity: 0, scale: 0.95, zIndex: 5 }
+              ? { y: -140, opacity: 1, scale: 1, zIndex: 50 }
+              : { y: 0, opacity: 0, scale: 0.85, zIndex: 5 }
           }
           transition={{ 
-            y: { duration: 1.4, delay: isOpen ? 0.4 : 0, ease: [0.22, 1, 0.36, 1] },
-            opacity: { duration: 0.8, delay: isOpen ? 0.6 : 0, ease: 'easeOut' },
-            scale: { duration: 1.2, delay: isOpen ? 0.4 : 0, ease: 'easeOut' },
+            y: { duration: 1.6, delay: isOpen ? 1.2 : 0, ease: [0.22, 1, 0.36, 1] },
+            opacity: { duration: 1.0, delay: isOpen ? 1.3 : 0, ease: 'easeOut' },
+            scale: { duration: 1.4, delay: isOpen ? 1.2 : 0, ease: 'easeOut' },
+            zIndex: { duration: 0, delay: isOpen ? 1.2 : 0 }
           }}
           style={{ 
             pointerEvents: isOpen ? 'auto' : 'none',
