@@ -98,16 +98,34 @@ export default function RunawayButton() {
           const directionY = mouseDeltaY / mouseMoveDistance;
           
           // Tlačítko se posune STEJNÝM směrem jako myš, těsně před ní
-          const newX = x.get() + directionX * escapeDistance;
-          const newY = y.get() + directionY * escapeDistance;
+          let newX = x.get() + directionX * escapeDistance;
+          let newY = y.get() + directionY * escapeDistance;
           
-          // Boundary handling
-          const padding = 50;
-          const maxX = window.innerWidth / 2 - rect.width / 2 - padding;
-          const maxY = window.innerHeight / 2 - rect.height / 2 - padding;
+          // Boundary handling - zajistit že tlačítko zůstane na obrazovce
+          const padding = 20;
           
-          x.set(Math.max(-maxX, Math.min(maxX, newX)));
-          y.set(Math.max(-maxY, Math.min(maxY, newY)));
+          // Vypočítat budoucí absolutní pozici tlačítka
+          const futureLeft = rect.left + (newX - x.get());
+          const futureRight = rect.right + (newX - x.get());
+          const futureTop = rect.top + (newY - y.get());
+          const futureBottom = rect.bottom + (newY - y.get());
+          
+          // Omezit horizontální pohyb
+          if (futureLeft < padding) {
+            newX = x.get() + (padding - rect.left);
+          } else if (futureRight > window.innerWidth - padding) {
+            newX = x.get() + (window.innerWidth - padding - rect.right);
+          }
+          
+          // Omezit vertikální pohyb
+          if (futureTop < padding) {
+            newY = y.get() + (padding - rect.top);
+          } else if (futureBottom > window.innerHeight - padding) {
+            newY = y.get() + (window.innerHeight - padding - rect.bottom);
+          }
+          
+          x.set(newX);
+          y.set(newY);
         }
       } else {
         setIsHovering(false);
@@ -136,11 +154,35 @@ export default function RunawayButton() {
       if (isOverButton) {
         // Posun náhodným směrem při dotyku
         const randomAngle = Math.random() * Math.PI * 2;
-        const moveX = Math.cos(randomAngle) * escapeDistance * 2;
-        const moveY = Math.sin(randomAngle) * escapeDistance * 2;
+        let moveX = Math.cos(randomAngle) * escapeDistance * 2;
+        let moveY = Math.sin(randomAngle) * escapeDistance * 2;
         
-        x.set(x.get() + moveX);
-        y.set(y.get() + moveY);
+        let newX = x.get() + moveX;
+        let newY = y.get() + moveY;
+        
+        // Boundary handling pro touch
+        const padding = 20;
+        const futureLeft = rect.left + moveX;
+        const futureRight = rect.right + moveX;
+        const futureTop = rect.top + moveY;
+        const futureBottom = rect.bottom + moveY;
+        
+        // Omezit horizontální pohyb
+        if (futureLeft < padding) {
+          newX = x.get() + (padding - rect.left);
+        } else if (futureRight > window.innerWidth - padding) {
+          newX = x.get() + (window.innerWidth - padding - rect.right);
+        }
+        
+        // Omezit vertikální pohyb
+        if (futureTop < padding) {
+          newY = y.get() + (padding - rect.top);
+        } else if (futureBottom > window.innerHeight - padding) {
+          newY = y.get() + (window.innerHeight - padding - rect.bottom);
+        }
+        
+        x.set(newX);
+        y.set(newY);
       }
     };
 
