@@ -86,52 +86,18 @@ export default function SuccessView({ isOpen, onClose }: SuccessViewProps) {
   }, [isPlaying]);
 
   const handleAddToCalendar = () => {
-    // Vytvoření iCalendar (.ics) souboru
+    // Google Calendar link (jednodušší než .ics)
     const event = {
-      title: 'Valentýnské Rande ❤️',
-      description: 'Hurá, bude mi ctí! Nezapomeň na Dirty Little Secret.',
-      location: 'TBD',
-      startDate: new Date('2026-02-14T18:00:00'),
-      endDate: new Date('2026-02-14T23:00:00'),
+      title: 'valentýnské rande',
+      description: 'jupí, bude randíčko!',
+      location: '',
+      startDate: '20260214T180000',
+      endDate: '20260214T230000',
     };
 
-    const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Valentýn//WebApp//CZ
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-BEGIN:VEVENT
-UID:${Date.now()}@valentyn-app
-DTSTAMP:${formatICSDate(new Date())}
-DTSTART:${formatICSDate(event.startDate)}
-DTEND:${formatICSDate(event.endDate)}
-SUMMARY:${event.title}
-DESCRIPTION:${event.description}
-LOCATION:${event.location}
-STATUS:CONFIRMED
-SEQUENCE:0
-END:VEVENT
-END:VCALENDAR`;
-
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'valentyn-rande.ics';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
-
-  const formatICSDate = (date: Date): string => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `${year}${month}${day}T${hours}${minutes}${seconds}`;
+    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.startDate}/${event.endDate}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}`;
+    
+    window.open(googleCalendarUrl, '_blank');
   };
 
   return (
@@ -157,7 +123,7 @@ END:VCALENDAR`;
           >
             <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
               {/* Header */}
-              <div className="relative bg-gradient-to-r from-red-600 to-pink-600 p-6 text-white">
+              <div className="relative bg-[#DC2626] p-6 text-white">
                 <button
                   onClick={onClose}
                   className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors"
@@ -165,21 +131,15 @@ END:VCALENDAR`;
                   <X size={24} />
                 </button>
                 <h2 className="text-3xl font-bold text-center">
-                  Hurááá! 🎉❤️
+                  jupí, bude randíčko
                 </h2>
-                <p className="text-center mt-2 text-white/90">
-                  Budu moc rád, že budeme spolu! 💕
-                </p>
               </div>
 
               {/* Content */}
               <div className="p-6 space-y-6 overflow-y-auto max-h-[60vh]">
                 {/* Lyrics Display */}
                 <div className="bg-zinc-50 rounded-xl p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Music className="text-red-600" size={24} />
-                    <h3 className="font-semibold text-lg">Naše písnička</h3>
-                  </div>
+                  <h3 className="text-center text-lg mb-4 text-zinc-700">navždy mým malým špinavým tajemstvím</h3>
                   <LyricsSyncDisplay currentTime={currentTime} />
                 </div>
 
@@ -191,7 +151,7 @@ END:VCALENDAR`;
                   whileTap={{ scale: 0.98 }}
                 >
                   <Calendar size={24} />
-                  <span>Přidat do kalendáře (14. února 18:00)</span>
+                  <span>přidat do kalendáře (14. února 18:00)</span>
                 </motion.button>
               </div>
             </div>

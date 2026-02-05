@@ -57,12 +57,20 @@ export default function LyricsSyncDisplay({ currentTime }: LyricsSyncDisplayProp
     }
   }, [currentLineIndex]);
 
+  // Zobrazit jen 3 řádky: předchozí, aktuální, následující
+  const visibleLines = [
+    currentLineIndex - 1,
+    currentLineIndex,
+    currentLineIndex + 1,
+  ].filter(idx => idx >= 0 && idx < lyrics.length);
+
   return (
     <div
       ref={containerRef}
-      className="max-h-64 overflow-y-auto space-y-2 text-center"
+      className="h-32 overflow-hidden space-y-3 text-center flex flex-col justify-center"
     >
-      {lyrics.map((line, index) => {
+      {visibleLines.map((index) => {
+        const line = lyrics[index];
         const isActive = index === currentLineIndex;
         const isPast = index < currentLineIndex;
 
@@ -70,12 +78,12 @@ export default function LyricsSyncDisplay({ currentTime }: LyricsSyncDisplayProp
           <div
             key={index}
             ref={isActive ? activeLineRef : null}
-            className={`transition-all duration-300 py-2 ${
+            className={`transition-all duration-500 ${
               isActive
-                ? 'text-red-600 text-2xl font-bold opacity-100 scale-105'
+                ? 'text-red-600 text-2xl font-bold opacity-100'
                 : isPast
-                ? 'text-zinc-400 text-base opacity-50'
-                : 'text-zinc-600 text-base opacity-40'
+                ? 'text-zinc-400 text-sm opacity-40'
+                : 'text-zinc-600 text-sm opacity-40'
             }`}
           >
             {line.text}
