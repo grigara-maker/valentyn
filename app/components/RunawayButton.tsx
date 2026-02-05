@@ -30,9 +30,11 @@ export default function RunawayButton() {
 
   // Easter egg - náhodné hlášky na pozadí
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    
     const showEasterEgg = () => {
-      // 30% šance že se zobrazí hláška
-      if (Math.random() < 0.3) {
+      // 40% šance že se zobrazí hláška
+      if (Math.random() < 0.4) {
         const randomMsg = teasingMessages[Math.floor(Math.random() * teasingMessages.length)];
         setCurrentMessage(randomMsg);
         
@@ -41,24 +43,26 @@ export default function RunawayButton() {
           setCurrentMessage('ne');
         }, 2500);
       }
+      
+      // Naplánovat další kontrolu za 10-15 sekund
+      scheduleNext();
     };
 
-    // Každých 12-18 sekund zkontrolovat easter egg
-    const minInterval = 12000;
-    const maxInterval = 18000;
-    
     const scheduleNext = () => {
+      const minInterval = 10000; // 10s
+      const maxInterval = 15000; // 15s
       const randomInterval = minInterval + Math.random() * (maxInterval - minInterval);
-      return setTimeout(() => {
-        showEasterEgg();
-        intervalId = scheduleNext();
-      }, randomInterval);
+      
+      timeoutId = setTimeout(showEasterEgg, randomInterval);
     };
     
-    let intervalId = scheduleNext();
+    // Začít první kontrolu
+    scheduleNext();
 
     return () => {
-      clearTimeout(intervalId);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
   }, []);
 
