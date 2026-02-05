@@ -21,7 +21,7 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
         }}
         transition={{ duration: 1 }}
         style={{
-          background: 'radial-gradient(circle at center, rgba(220, 38, 38, 0.15) 0%, rgba(220, 38, 38, 0.08) 20%, rgba(220, 38, 38, 0.04) 40%, rgba(220, 38, 38, 0.01) 60%, transparent 80%)',
+          background: 'radial-gradient(circle at center, rgba(220, 38, 38, 0.35) 0%, rgba(220, 38, 38, 0.20) 10%, rgba(220, 38, 38, 0.10) 20%, rgba(220, 38, 38, 0.03) 30%, transparent 40%)',
           zIndex: 1,
         }}
       />

@@ -16,7 +16,9 @@ export default function RunawayButton() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('ne');
+  const [isOnCooldown, setIsOnCooldown] = useState(false);
   const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const cooldownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastMousePos = useRef({ x: 0, y: 0 });
   
   const x = useMotionValue(0);
@@ -30,18 +32,30 @@ export default function RunawayButton() {
   const escapeDistance = 15; // ~0.25cm před kurzorem
 
   const showRandomMessage = () => {
+    // Pokud je cooldown, nezobrazuj hlášku
+    if (isOnCooldown) return;
+    
     const randomMsg = teasingMessages[Math.floor(Math.random() * teasingMessages.length)];
     setCurrentMessage(randomMsg);
     
-    // Vyčistit předchozí timeout
+    // Vyčistit předchozí timeouty
     if (messageTimeoutRef.current) {
       clearTimeout(messageTimeoutRef.current);
     }
+    if (cooldownTimeoutRef.current) {
+      clearTimeout(cooldownTimeoutRef.current);
+    }
     
-    // Vrátit zpět "ne" po 1.5 sekundě
+    // Vrátit zpět "ne" po 3 sekundách
     messageTimeoutRef.current = setTimeout(() => {
       setCurrentMessage('ne');
-    }, 1500);
+    }, 3000);
+    
+    // Začít 5s cooldown po zobrazení hlášky
+    setIsOnCooldown(true);
+    cooldownTimeoutRef.current = setTimeout(() => {
+      setIsOnCooldown(false);
+    }, 8000); // 3s zobrazení + 5s pauza
   };
 
   useEffect(() => {
@@ -137,8 +151,11 @@ export default function RunawayButton() {
       if (messageTimeoutRef.current) {
         clearTimeout(messageTimeoutRef.current);
       }
+      if (cooldownTimeoutRef.current) {
+        clearTimeout(cooldownTimeoutRef.current);
+      }
     };
-  }, [x, y]);
+  }, [x, y, isOnCooldown]);
 
   return (
     <motion.button
