@@ -17,17 +17,37 @@ interface HeartData {
 
 export default function FloatingHearts() {
   const hearts = useMemo<HeartData[]>(() => {
-    return Array.from({ length: 25 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: 15 + Math.random() * 25,
-      opacity: 0.15 + Math.random() * 0.25,
-      duration: 10 + Math.random() * 10,
-      moveX: (Math.random() - 0.5) * 80,
-      moveY: (Math.random() - 0.5) * 80,
-      rotate: Math.random() * 360,
-    }));
+    // Generovat srdíčka s lepší distribucí po celé obrazovce
+    const heartCount = 35;
+    const hearts: HeartData[] = [];
+    
+    // Vytvořit mřížku pro rovnoměrnější rozmístění
+    const rows = 7;
+    const cols = 5;
+    
+    for (let i = 0; i < heartCount; i++) {
+      if (i < rows * cols) {
+        // První srdíčka rozmístit v mřížce
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const baseX = (col / cols) * 100;
+        const baseY = (row / rows) * 100;
+        
+        hearts.push({
+          id: i,
+          x: baseX + Math.random() * (100 / cols),
+          y: baseY + Math.random() * (100 / rows),
+          size: 15 + Math.random() * 25,
+          opacity: 0.15 + Math.random() * 0.25,
+          duration: 10 + Math.random() * 10,
+          moveX: (Math.random() - 0.5) * 60,
+          moveY: (Math.random() - 0.5) * 60,
+          rotate: Math.random() * 360,
+        });
+      }
+    }
+    
+    return hearts;
   }, []);
 
   return (
