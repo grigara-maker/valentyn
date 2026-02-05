@@ -58,38 +58,38 @@ export default function LyricsSyncDisplay({ currentTime }: LyricsSyncDisplayProp
   }, [currentLineIndex]);
 
   // Zobrazit jen 3 řádky: předchozí, aktuální, následující
-  const visibleLines = [
-    currentLineIndex - 1,
-    currentLineIndex,
-    currentLineIndex + 1,
-  ].filter(idx => idx >= 0 && idx < lyrics.length);
+  const prevLine = currentLineIndex > 0 ? lyrics[currentLineIndex - 1] : null;
+  const currentLine = lyrics[currentLineIndex];
+  const nextLine = currentLineIndex < lyrics.length - 1 ? lyrics[currentLineIndex + 1] : null;
 
   return (
     <div
       ref={containerRef}
-      className="h-32 overflow-hidden space-y-3 text-center flex flex-col justify-center"
+      className="relative h-40 overflow-hidden text-center"
     >
-      {visibleLines.map((index) => {
-        const line = lyrics[index];
-        const isActive = index === currentLineIndex;
-        const isPast = index < currentLineIndex;
-
-        return (
-          <div
-            key={index}
-            ref={isActive ? activeLineRef : null}
-            className={`transition-all duration-500 ${
-              isActive
-                ? 'text-red-600 text-2xl font-bold opacity-100'
-                : isPast
-                ? 'text-zinc-400 text-sm opacity-40'
-                : 'text-zinc-600 text-sm opacity-40'
-            }`}
-          >
-            {line.text}
-          </div>
-        );
-      })}
+      {/* Předchozí řádek */}
+      {prevLine && (
+        <div className="absolute top-2 left-0 right-0 transition-all duration-500 text-zinc-400 text-sm opacity-40">
+          {prevLine.text}
+        </div>
+      )}
+      
+      {/* Aktuální řádek */}
+      {currentLine && (
+        <div 
+          ref={activeLineRef}
+          className="absolute top-1/2 -translate-y-1/2 left-0 right-0 transition-all duration-500 text-red-600 text-2xl font-bold opacity-100"
+        >
+          {currentLine.text}
+        </div>
+      )}
+      
+      {/* Následující řádek */}
+      {nextLine && (
+        <div className="absolute bottom-2 left-0 right-0 transition-all duration-500 text-zinc-600 text-sm opacity-40">
+          {nextLine.text}
+        </div>
+      )}
     </div>
   );
 }
