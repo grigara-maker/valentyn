@@ -16,7 +16,7 @@ export default function RunawayButton() {
   const xSpring = useSpring(x, springConfig);
   const ySpring = useSpring(y, springConfig);
 
-  const escapeDistance = 30; // ~0.5cm před kurzorem
+  const escapeDistance = 15; // ~0.25cm před kurzorem
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
