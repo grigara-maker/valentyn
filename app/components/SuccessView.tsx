@@ -139,7 +139,7 @@ export default function SuccessView({ isOpen, onClose }: SuccessViewProps) {
               <div className="p-6 space-y-6 overflow-y-auto max-h-[60vh]">
                 {/* Lyrics Display */}
                 <div className="bg-zinc-50 rounded-xl p-6">
-                  <h3 className="text-center text-lg mb-4 text-zinc-700">navždy mým malým špinavým tajemstvím</h3>
+                  <h3 className="text-center text-2xl font-bold mb-6 text-zinc-900">navždy mým malým špinavým tajemstvím</h3>
                   <LyricsSyncDisplay currentTime={currentTime} />
                 </div>
 

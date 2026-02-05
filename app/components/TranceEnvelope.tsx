@@ -37,7 +37,7 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
                 }
           }
           style={{
-            filter: 'drop-shadow(0 0 20px rgba(220, 38, 38, 0.6)) drop-shadow(0 0 40px rgba(220, 38, 38, 0.4)) drop-shadow(0 0 80px rgba(220, 38, 38, 0.2)) drop-shadow(0 0 120px rgba(220, 38, 38, 0.1))',
+            filter: 'drop-shadow(0 0 15px rgba(220, 38, 38, 0.7)) drop-shadow(0 0 30px rgba(220, 38, 38, 0.5)) drop-shadow(0 0 60px rgba(220, 38, 38, 0.3)) drop-shadow(0 0 100px rgba(220, 38, 38, 0.15)) drop-shadow(0 0 150px rgba(220, 38, 38, 0.08)) drop-shadow(0 0 200px rgba(220, 38, 38, 0.04))',
             willChange: isOpen ? 'transform, opacity, filter' : 'auto',
           }}
         >
@@ -111,7 +111,7 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
         >
           <div className="text-center space-y-6">
             <h1 className="text-2xl font-bold text-zinc-900">
-              bby, budeš mou valentýnkou? 💕
+              bby, budeš mou valentýnkou?
             </h1>
 
             <div className="flex flex-row gap-3 justify-center items-center">
