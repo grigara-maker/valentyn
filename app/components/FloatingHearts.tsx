@@ -23,7 +23,7 @@ export default function FloatingHearts() {
       size: 15 + Math.random() * 25,
       opacity: 0.15 + Math.random() * 0.25,
       duration: 8 + Math.random() * 12,
-      delay: Math.random() * 3, // Kratší delay pro okamžitý start
+      delay: 0, // Žádný delay - létají hned
     }));
   }, []);
 
