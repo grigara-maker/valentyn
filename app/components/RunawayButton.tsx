@@ -16,8 +16,6 @@ export default function RunawayButton() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('ne');
-  const escapeCount = useRef(0); // Počítadlo uhnutí
-  const currentTeasingMessage = useRef(''); // Aktuální vtipná hláška pro toto období
   const lastMousePos = useRef({ x: 0, y: 0 });
   
   const x = useMotionValue(0);
@@ -30,25 +28,39 @@ export default function RunawayButton() {
 
   const escapeDistance = 15; // ~0.25cm před kurzorem
 
-  const handleEscape = () => {
-    escapeCount.current += 1;
-    const count = escapeCount.current;
-    
-    // Zjistit, ve kterém 5-escape období jsme
-    const period = Math.floor((count - 1) / 5);
-    const isNePeriod = period % 2 === 0; // sudá období (0, 2, 4...) = "ne"
-    
-    if (isNePeriod) {
-      setCurrentMessage('ne');
-    } else {
-      // Pokud jsme v novém období, vyber novou náhodnou hlášku
-      if ((count - 1) % 5 === 0) {
+  // Easter egg - náhodné hlášky na pozadí
+  useEffect(() => {
+    const showEasterEgg = () => {
+      // 30% šance že se zobrazí hláška
+      if (Math.random() < 0.3) {
         const randomMsg = teasingMessages[Math.floor(Math.random() * teasingMessages.length)];
-        currentTeasingMessage.current = randomMsg;
+        setCurrentMessage(randomMsg);
+        
+        // Po 2.5 sekundách zpět na "ne"
+        setTimeout(() => {
+          setCurrentMessage('ne');
+        }, 2500);
       }
-      setCurrentMessage(currentTeasingMessage.current);
-    }
-  };
+    };
+
+    // Každých 12-18 sekund zkontrolovat easter egg
+    const minInterval = 12000;
+    const maxInterval = 18000;
+    
+    const scheduleNext = () => {
+      const randomInterval = minInterval + Math.random() * (maxInterval - minInterval);
+      return setTimeout(() => {
+        showEasterEgg();
+        intervalId = scheduleNext();
+      }, randomInterval);
+    };
+    
+    let intervalId = scheduleNext();
+
+    return () => {
+      clearTimeout(intervalId);
+    };
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -70,9 +82,6 @@ export default function RunawayButton() {
 
       if (isOverButton) {
         setIsHovering(true);
-        
-        // Zpracovat uhnutí
-        handleEscape();
         
         // Vypočítat směr pohybu myši
         const mouseDeltaX = mouseX - lastMousePos.current.x;
@@ -121,9 +130,6 @@ export default function RunawayButton() {
         touchY <= rect.bottom;
       
       if (isOverButton) {
-        // Zpracovat uhnutí
-        handleEscape();
-        
         // Posun náhodným směrem při dotyku
         const randomAngle = Math.random() * Math.PI * 2;
         const moveX = Math.cos(randomAngle) * escapeDistance * 2;
