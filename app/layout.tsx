@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Valentýnka 💖",
-  description: "Budeš mou valentýnkou?",
+  title: "valentýnka",
+  description: "špinavé malé tajemství",
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Valentýnka 💖',
+    title: 'valentýnka',
   },
 };
 
