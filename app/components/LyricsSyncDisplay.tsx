@@ -69,11 +69,11 @@ export default function LyricsSyncDisplay({ currentTime }: LyricsSyncDisplayProp
   return (
     <div
       ref={containerRef}
-      className="relative h-40 overflow-hidden text-center"
+      className="relative h-32 md:h-40 overflow-hidden text-center px-2"
     >
       {/* Předchozí řádek */}
       {prevLine && (
-        <div className="absolute top-2 left-0 right-0 transition-all duration-500 text-zinc-400 text-sm opacity-40">
+        <div className="absolute top-1 md:top-2 left-0 right-0 transition-all duration-500 text-zinc-400 text-xs md:text-sm opacity-40">
           {prevLine.text}
         </div>
       )}
@@ -84,8 +84,8 @@ export default function LyricsSyncDisplay({ currentTime }: LyricsSyncDisplayProp
           ref={activeLineRef}
           className={`absolute top-1/2 -translate-y-1/2 left-0 right-0 transition-all duration-500 ${
             isIntro 
-              ? 'text-red-600 text-xl font-bold opacity-100' 
-              : 'text-red-600 text-2xl font-bold opacity-100'
+              ? 'text-red-600 text-base md:text-xl font-bold opacity-100' 
+              : 'text-red-600 text-lg md:text-2xl font-bold opacity-100'
           }`}
         >
           {currentLine.text}
@@ -94,7 +94,7 @@ export default function LyricsSyncDisplay({ currentTime }: LyricsSyncDisplayProp
       
       {/* Následující řádek */}
       {nextLine && (
-        <div className="absolute bottom-2 left-0 right-0 transition-all duration-500 text-zinc-600 text-sm opacity-40">
+        <div className="absolute bottom-1 md:bottom-2 left-0 right-0 transition-all duration-500 text-zinc-600 text-xs md:text-sm opacity-40">
           {nextLine.text}
         </div>
       )}

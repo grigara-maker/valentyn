@@ -135,71 +135,59 @@ export default function RunawayButton() {
       lastMousePos.current = { x: mouseX, y: mouseY };
     };
 
-    const handleTouchStart = (e: TouchEvent) => {
-      if (!buttonRef.current) return;
-      e.preventDefault();
-      
-      const touch = e.touches[0];
-      const rect = buttonRef.current.getBoundingClientRect();
-      
-      const touchX = touch.clientX;
-      const touchY = touch.clientY;
-      
-      const isOverButton = 
-        touchX >= rect.left && 
-        touchX <= rect.right && 
-        touchY >= rect.top && 
-        touchY <= rect.bottom;
-      
-      if (isOverButton) {
-        // Posun náhodným směrem při dotyku
-        const randomAngle = Math.random() * Math.PI * 2;
-        let moveX = Math.cos(randomAngle) * escapeDistance * 2;
-        let moveY = Math.sin(randomAngle) * escapeDistance * 2;
-        
-        let newX = x.get() + moveX;
-        let newY = y.get() + moveY;
-        
-        // Boundary handling pro touch
-        const padding = 20;
-        const futureLeft = rect.left + moveX;
-        const futureRight = rect.right + moveX;
-        const futureTop = rect.top + moveY;
-        const futureBottom = rect.bottom + moveY;
-        
-        // Omezit horizontální pohyb
-        if (futureLeft < padding) {
-          newX = x.get() + (padding - rect.left);
-        } else if (futureRight > window.innerWidth - padding) {
-          newX = x.get() + (window.innerWidth - padding - rect.right);
-        }
-        
-        // Omezit vertikální pohyb
-        if (futureTop < padding) {
-          newY = y.get() + (padding - rect.top);
-        } else if (futureBottom > window.innerHeight - padding) {
-          newY = y.get() + (window.innerHeight - padding - rect.bottom);
-        }
-        
-        x.set(newX);
-        y.set(newY);
-      }
-    };
-
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchstart', handleTouchStart, { passive: false });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchstart', handleTouchStart);
     };
   }, [x, y]);
+
+  const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    if (!buttonRef.current) return;
+    
+    const rect = buttonRef.current.getBoundingClientRect();
+    
+    // Posun náhodným směrem při kliknutí
+    const randomAngle = Math.random() * Math.PI * 2;
+    let moveX = Math.cos(randomAngle) * escapeDistance * 3;
+    let moveY = Math.sin(randomAngle) * escapeDistance * 3;
+    
+    let newX = x.get() + moveX;
+    let newY = y.get() + moveY;
+    
+    // Boundary handling
+    const padding = 20;
+    const futureLeft = rect.left + moveX;
+    const futureRight = rect.right + moveX;
+    const futureTop = rect.top + moveY;
+    const futureBottom = rect.bottom + moveY;
+    
+    // Omezit horizontální pohyb
+    if (futureLeft < padding) {
+      newX = x.get() + (padding - rect.left);
+    } else if (futureRight > window.innerWidth - padding) {
+      newX = x.get() + (window.innerWidth - padding - rect.right);
+    }
+    
+    // Omezit vertikální pohyb
+    if (futureTop < padding) {
+      newY = y.get() + (padding - rect.top);
+    } else if (futureBottom > window.innerHeight - padding) {
+      newY = y.get() + (window.innerHeight - padding - rect.bottom);
+    }
+    
+    x.set(newX);
+    y.set(newY);
+  };
 
   return (
     <motion.button
       ref={buttonRef}
+      onClick={handleClick}
+      onTouchEnd={handleClick}
       style={{ x: xSpring, y: ySpring, willChange: 'transform' }}
-      className="px-8 py-3 bg-zinc-200 text-zinc-700 rounded-full font-semibold transition-colors cursor-pointer select-none min-w-[120px]"
+      className="px-6 md:px-8 py-2 md:py-3 bg-zinc-200 text-zinc-700 rounded-full font-semibold transition-colors cursor-pointer select-none min-w-[100px] md:min-w-[120px] text-sm md:text-base"
     >
       {currentMessage}
     </motion.button>

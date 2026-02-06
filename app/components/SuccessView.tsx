@@ -123,37 +123,37 @@ export default function SuccessView({ isOpen, onClose }: SuccessViewProps) {
           >
             <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
               {/* Header */}
-              <div className="relative bg-[#DC2626] p-6 text-white">
+              <div className="relative bg-[#DC2626] p-4 md:p-6 text-white">
                 <button
                   onClick={onClose}
-                  className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors"
+                  className="absolute top-2 right-2 md:top-4 md:right-4 p-2 hover:bg-white/20 rounded-full transition-colors"
                 >
-                  <X size={24} />
+                  <X size={20} className="md:w-6 md:h-6" />
                 </button>
-                <h2 className="text-3xl font-bold text-center">
+                <h2 className="text-xl md:text-3xl font-bold text-center pr-8">
                   jupí, bude randíčko
                 </h2>
               </div>
 
               {/* Content */}
-              <div className="p-6 space-y-6 overflow-y-auto max-h-[60vh]">
+              <div className="p-4 md:p-6 space-y-4 md:space-y-6 overflow-y-auto max-h-[60vh]">
                 {/* Lyrics Display */}
-                <div className="bg-zinc-50 rounded-xl p-6">
-                  <h3 className="text-center text-2xl font-bold mb-6 text-zinc-900">navždy mým malým špinavým tajemstvím</h3>
+                <div className="bg-zinc-50 rounded-xl p-4 md:p-6">
+                  <h3 className="text-center text-lg md:text-2xl font-bold mb-4 md:mb-6 text-zinc-900">navždy mým malým špinavým tajemstvím</h3>
                   <LyricsSyncDisplay currentTime={currentTime} />
                 </div>
 
                 {/* Love Message */}
-                <h3 className="text-center text-2xl font-bold text-zinc-900">miluju tě, bby</h3>
+                <h3 className="text-center text-xl md:text-2xl font-bold text-zinc-900">miluju tě, bby</h3>
 
                 {/* Calendar Button */}
                 <motion.button
                   onClick={handleAddToCalendar}
-                  className="w-full px-6 py-4 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors flex items-center justify-center gap-3"
+                  className="w-full px-4 md:px-6 py-3 md:py-4 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <Calendar size={24} />
+                  <Calendar size={20} className="md:w-6 md:h-6" />
                   <span>přidat do kalendáře, ať nezapomeneš</span>
                 </motion.button>
               </div>

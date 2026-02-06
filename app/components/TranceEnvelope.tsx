@@ -29,7 +29,7 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
       <div className="relative z-10">
         {/* Obálka */}
         <motion.div
-          className="relative cursor-pointer"
+          className="relative cursor-pointer w-full max-w-[300px] mx-auto px-4 md:px-0"
           onClick={() => !isOpen && setIsOpen(true)}
           animate={
             isOpen
@@ -55,10 +55,11 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
         >
           {/* SVG Obálka */}
           <svg
-            width="300"
-            height="200"
+            width="100%"
+            height="auto"
             viewBox="0 0 300 200"
             className="relative z-10"
+            preserveAspectRatio="xMidYMid meet"
           >
             {/* Zadní strana */}
             <rect x="25" y="50" width="250" height="150" fill="#DC2626" />
@@ -101,11 +102,11 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
 
         {/* Papír s otázkou */}
         <motion.div
-          className={`${isOpen ? 'fixed' : 'absolute'} ${isOpen ? 'top-1/2 left-1/2' : 'top-[140px] left-1/2'} -translate-x-1/2 ${isOpen ? '-translate-y-1/2' : ''} bg-white rounded-lg shadow-2xl p-8 w-[280px] md:w-[320px]`}
+          className={`${isOpen ? 'fixed' : 'absolute'} ${isOpen ? 'top-1/2 left-1/2' : 'top-[120px] md:top-[140px] left-1/2'} -translate-x-1/2 ${isOpen ? '-translate-y-1/2' : ''} bg-white rounded-lg shadow-2xl p-6 md:p-8 w-[90vw] max-w-[280px] md:max-w-[320px] mx-4`}
           initial={{ y: 0, opacity: 0, scale: 0.85 }}
           animate={
             isOpen
-              ? { y: -140, opacity: 1, scale: 1, zIndex: 50 }
+              ? { y: -120, opacity: 1, scale: 1, zIndex: 50 }
               : { y: 0, opacity: 0, scale: 0.85, zIndex: 5 }
           }
           transition={{ 
@@ -120,14 +121,14 @@ export default function TranceEnvelope({ onAccept }: TranceEnvelopeProps) {
           }}
         >
           <div className="text-center space-y-6">
-            <h1 className="text-2xl font-bold text-zinc-900">
+            <h1 className="text-xl md:text-2xl font-bold text-zinc-900">
               bby, budeš mou valentýnkou?
             </h1>
 
-            <div className="flex flex-row gap-3 justify-center items-center">
+            <div className="flex flex-row gap-2 md:gap-3 justify-center items-center">
               <motion.button
                 onClick={onAccept}
-                className="px-8 py-3 bg-[#DC2626] text-white rounded-full font-semibold hover:bg-[#B91C1C] transition-colors"
+                className="px-6 md:px-8 py-2 md:py-3 bg-[#DC2626] text-white rounded-full font-semibold hover:bg-[#B91C1C] transition-colors text-sm md:text-base"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
