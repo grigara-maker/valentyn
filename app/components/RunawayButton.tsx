@@ -27,6 +27,7 @@ export default function RunawayButton() {
   const ySpring = useSpring(y, springConfig);
 
   const escapeDistance = 15; // ~0.25cm před kurzorem
+  const activationRadius = 80; // Tlačítko začne utíkat až když je myš blíž než 80px
 
   // Easter egg - náhodné hlášky na pozadí
   useEffect(() => {
@@ -77,14 +78,13 @@ export default function RunawayButton() {
       const mouseX = e.clientX;
       const mouseY = e.clientY;
 
-      // Kontrola, zda je kurzor PŘÍMO nad tlačítkem
-      const isOverButton = 
-        mouseX >= rect.left && 
-        mouseX <= rect.right && 
-        mouseY >= rect.top && 
-        mouseY <= rect.bottom;
+      // Vypočítat vzdálenost myši od středu tlačítka
+      const distanceX = mouseX - buttonCenterX;
+      const distanceY = mouseY - buttonCenterY;
+      const distanceFromButton = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-      if (isOverButton) {
+      // Tlačítko začne utíkat POUZE když je myš dostatečně blízko
+      if (distanceFromButton < activationRadius) {
         setIsHovering(true);
         
         // Vypočítat směr pohybu myši
