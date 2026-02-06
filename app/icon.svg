@@ -1,20 +1,20 @@
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <!-- Bílé pozadí -->
+  <!-- Bile pozadi -->
   <rect width="512" height="512" fill="white"/>
   
-  <!-- Zadní strana obálky -->
+  <!-- Zadni strana obalky -->
   <rect x="64" y="128" width="384" height="256" fill="#DC2626" rx="8"/>
   
-  <!-- PYední tlo obálky -->
+  <!-- Predni telo obalky -->
   <path d="M64 128 L256 256 L448 128 L448 384 L64 384 Z" fill="#EF4444"/>
   
-  <!-- Horní chlopeH -->
+  <!-- Horni chlopen -->
   <path d="M64 128 L256 256 L448 128 Z" fill="#DC2626"/>
   
   <!-- Okraje pro hloubku -->
   <line x1="64" y1="128" x2="256" y2="256" stroke="#B91C1C" stroke-width="4"/>
   <line x1="448" y1="128" x2="256" y2="256" stroke="#B91C1C" stroke-width="4"/>
   
-  <!-- Srdení symbol uprostYed -->
+  <!-- Srdecni symbol uprostred -->
   <path d="M256 200 C256 200, 246 190, 236 190 C226 190, 220 196, 220 206 C220 216, 230 226, 256 245 C282 226, 292 216, 292 206 C292 196, 286 190, 276 190 C266 190, 256 200, 256 200 Z" fill="white" opacity="0.9"/>
 </svg>
