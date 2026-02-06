@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "valentýnka",
-  description: "špinavé malé tajemství",
+  title: "špinavé malé tajemství",
+  description: "valentýnka",
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'valentýnka',
+    title: 'špinavé malé tajemství',
   },
 };
 
