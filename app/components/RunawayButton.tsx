@@ -16,6 +16,7 @@ export default function RunawayButton() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('ne');
+  const [isActive, setIsActive] = useState(false); // Imunita prvních 3s
   const lastMousePos = useRef({ x: 0, y: 0 });
   
   const x = useMotionValue(0);
@@ -28,6 +29,15 @@ export default function RunawayButton() {
 
   const escapeDistance = 15; // ~0.25cm před kurzorem
   const activationRadius = 80; // Tlačítko začne utíkat až když je myš blíž než 80px
+
+  // Aktivovat tlačítko po 3 sekundách (čas pro vyjetí papíru)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsActive(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Easter egg - náhodné hlášky na pozadí
   useEffect(() => {
@@ -83,8 +93,8 @@ export default function RunawayButton() {
       const distanceY = mouseY - buttonCenterY;
       const distanceFromButton = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-      // Tlačítko začne utíkat POUZE když je myš dostatečně blízko
-      if (distanceFromButton < activationRadius) {
+      // Tlačítko začne utíkat POUZE když je myš dostatečně blízko A je aktivní
+      if (isActive && distanceFromButton < activationRadius) {
         setIsHovering(true);
         
         // Vypočítat směr pohybu myši
@@ -140,11 +150,11 @@ export default function RunawayButton() {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [x, y]);
+  }, [x, y, isActive]);
 
   const handleClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
-    if (!buttonRef.current) return;
+    if (!buttonRef.current || !isActive) return; // Ignorovat kliknutí, pokud není aktivní
     
     const rect = buttonRef.current.getBoundingClientRect();
     
